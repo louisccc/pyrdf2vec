@@ -1,6 +1,7 @@
 from pathlib import Path
 from rdflib import RDF
 from sklearn.model_selection import train_test_split
+import pickle
 
 from graph import Vertex, KnowledgeGraph, extract_instance
 from rdf2vec import RDF2VecTransformer
@@ -34,6 +35,12 @@ class RDFLoader:
             if p == type_pred:
                 entities.add(s)
         return entities
+    
+    def save_subgraphs(self):
+        with open("train_subgraphs.pkl", "wb") as f:
+            pickle.dump(self.train_subgraphs, f)
+        with open("test_subgraphs.pkl", "wb") as f:
+            pickle.dump(self.test_subgraphs, f)
 
     def triples_to_kg(self, triples):
         kg = KnowledgeGraph()
@@ -49,8 +56,9 @@ class RDFLoader:
 
 if __name__ == "__main__":
     loader = RDFLoader("./data/data.txt")
+    loader.save_subgraphs()
 
-    transformer = RDF2VecTransformer(_type='walk', walks_per_graph=500)
+    transformer = RDF2VecTransformer(_type='wl', walks_per_graph=500)
     embeddings = transformer.fit_transform(loader.test_subgraphs+loader.train_subgraphs)
     transformer.save_model("rdf.model")
 
