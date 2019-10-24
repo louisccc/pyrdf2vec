@@ -52,5 +52,6 @@ if __name__ == "__main__":
 
     transformer = RDF2VecTransformer(_type='walk', walks_per_graph=500)
     embeddings = transformer.fit_transform(loader.test_subgraphs+loader.train_subgraphs)
+    transformer.save_model("rdf.model")
 
     import pdb; pdb.set_trace()

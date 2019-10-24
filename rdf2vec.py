@@ -168,6 +168,12 @@ class RDF2VecTransformer():
                               iter=self.max_iter, negative=self.negative, 
                               min_count=self.min_count)
 
+    def save_model(self, path):
+        assert(self.model), "Model does not exist."
+        self.model.save(path)
+
+    def load_model(self, path):
+        self.model = Word2Vec.load(path)
 
     def transform(self, graphs):
         """ Construct a feature vector for each graph
