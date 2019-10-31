@@ -37,9 +37,9 @@ class RDFLoader:
         return entities
     
     def save_subgraphs(self):
-        with open("train_subgraphs.pkl", "wb") as f:
+        with open("data/train_subgraphs.pkl", "wb") as f:
             pickle.dump(self.train_subgraphs, f)
-        with open("test_subgraphs.pkl", "wb") as f:
+        with open("data/test_subgraphs.pkl", "wb") as f:
             pickle.dump(self.test_subgraphs, f)
 
     def triples_to_kg(self, triples):
@@ -60,6 +60,6 @@ if __name__ == "__main__":
 
     transformer = RDF2VecTransformer(_type='wl', walks_per_graph=500)
     embeddings = transformer.fit_transform(loader.test_subgraphs+loader.train_subgraphs)
-    transformer.save_model("rdf.model")
+    transformer.save_model("data/rdf.model")
 
-    import pdb; pdb.set_trace()
+    
